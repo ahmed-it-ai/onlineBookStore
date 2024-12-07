@@ -1,0 +1,127 @@
+CREATE TABLE U_user (
+id  INT  PRIMARY KEY NOT NULL,
+name VARCHAR2(10) NOT NULL,
+password VARCHAR2(18) NOT NULL,
+phone INT NOT NULL,
+email INT NOT NULL);
+
+CREATE TABLE user_email (
+id INT( PRIMARY KEY NOT NULL,
+email VARCHAR2(18) NOT NULL);
+
+CREATE TABLE phone (
+id INT PRIMARY KEY NOT NULL,
+number_phone VARCHAR2(14) NOT NULL);
+
+CREATE TABLE address (
+id INT PRIMARY KEY NOT NULL,
+street_name VARCHAR2(30) NOT NULL,
+number INT NOT NULL,
+description VARCHAR2(30) NOT NULL,
+id_city INT NOT NULL);
+
+CREATE TABLE city (
+id INT PRIMARY KEY NOT NULL,
+name VARCHAR2(20) NOT NULL,
+id_country INT(5) NOT NULL);
+
+
+CREATE TABLE country (
+id INT PRIMARY KEY NOT NULL,
+name VARCHAR2(20) NOT NULL);
+
+CREATE TABLE Arthur (
+id INT PRIMARY KEY NOT NULL,
+name VARCHAR(18) NOT NULL,
+phone INT NOT NULL,
+address INT NOT NULL);
+
+CREATE TABLE branch (
+id INT PRIMARY KEY NOT NULL,
+name INT NOT NULL,
+address INT NOT NULL);
+
+CREATE TABLE book (
+id INT PRIMARY KEY NOT NULL,
+total VARCHAR2(30) NOT NULL,
+category INT NOT NULL,
+Arthur INT NOT NULL);
+
+CREATE TABLE category (
+id INT PRIMARY KEY NOT NULL,
+name VARCHAR2(30) NOT NULL);
+
+CREATE TABLE review (
+id INT PRIMARY KEY NOT NULL,
+user_id INT NOT NULL,
+stars_count INT NOT NULL,
+comment VARCHAR2(30) NOT NULL,
+book_id INT NOT NULL);
+
+CREATE TABLE Borrowing (
+id INT PRIMARY KEY NOT NULL,
+start DATE,
+end DATE,
+price INT NOT NULL,
+Borrower INT NOT NULL,
+book INT NOT NULL);
+
+CREATE TABLE employee (
+id INT PRIMARY KEY NOT NULL,
+name VARCHAR2(20) NOT NULL,
+salary INT NOT NULL,
+work INT NOT NULL,
+branch INT NOT NULL,
+phone INT NOT NULL);
+ 
+
+CREATE TABLE work_type (
+id INT PRIMARY KEY NOT NULL,
+name INT NOT NULL);
+
+CREATE TABLE payment (
+id INT PRIMARY KEY NOT NULL,
+credit_card_number VARCHAR2(30) NOT NULL,
+expiry_date DATE,
+pin_code INT NOT NULL,
+type INT NOT NULL,
+user INT NOT NULL);
+
+CREATE TABLE payment_type (
+id INT PRIMARY KEY NOT NULL,
+V_value VARCHAR2(12) NOT NULL);
+
+CREATE TABLE planning_process (
+id INT PRIMARY KEY NOT NULL,
+P_price INT NOT NULL,
+S_start DATE,
+E_end DATE,
+payment INT NOT NULL,
+P_plan INT NOT NULL);
+
+CREATE TABLE plan (
+id INT PRIMARY KEY NOT NULL,
+name VARCHAR2(20) NOT NULL,
+P_price VARCHAR2(30) NOT NULL,
+number_book INT NOT NULL);
+
+ALTER TABLE U_user ADD CONSTRAINT  user_phone_phone_id FOREIGN KEY (phone) REFERENCES phone(id);
+ALTER TABLE U_user ADD CONSTRAINT  user_email_user_email_id FOREIGN KEY (email) REFERENCES user_email(id);
+ALTER TABLE `address` ADD CONSTRAINT `address_id_city_city_id` FOREIGN KEY (`id_city`) REFERENCES city (`id`);
+ALTER TABLE city ADD CONSTRAINT city_id_country_country_id FOREIGN KEY (id_country) REFERENCES country(id);
+ALTER TABLE Arthur ADD CONSTRAINT Arthur_phone_phone_id FOREIGN KEY (phone) REFERENCES phone(id);
+ALTER TABLE Arthur ADD CONSTRAINT Arthur_address_address_id FOREIGN KEY (address) REFERENCES address(id);
+ALTER TABLE branch ADD CONSTRAINT branch_address_address_id FOREIGN KEY (address) REFERENCES address(id);
+ALTER TABLE book ADD CONSTRAINT book_category_category_id FOREIGN KEY (category) REFERENCES category(id);
+ALTER TABLE book ADD CONSTRAINT book_Arthur_Arthur_id FOREIGN KEY (Arthur) REFERENCES Arthur(id);
+ALTER TABLE review ADD CONSTRAINT review_user_id_user_id FOREIGN KEY (user_id) REFERENCES U_user(id);
+ALTER TABLE review ADD CONSTRAINT review_book_id_book_id FOREIGN KEY (book_id) REFERENCES book(id);
+ALTER TABLE Borrowing ADD CONSTRAINT Borrowing_Borrower_user_id FOREIGN KEY (Borrower) REFERENCES U_user(id);
+ALTER TABLE Borrowing ADD CONSTRAINT Borrowing_book_book_id FOREIGN KEY (book) REFERENCES book(id);
+ALTER TABLE employee ADD CONSTRAINT employee_work_work_type_id FOREIGN KEY (work) REFERENCES work_type(id);
+ALTER TABLE employee ADD CONSTRAINT employee_branch_branch_id FOREIGN KEY (branch) REFERENCES branch(id);
+ALTER TABLE employee ADD CONSTRAINT employee_phone_phone_id FOREIGN KEY (phone) REFERENCES phone(id);
+ALTER TABLE payment ADD CONSTRAINT payment_type_payment_type_id FOREIGN KEY (type) REFERENCES payment_type(id);
+ALTER TABLE payment ADD CONSTRAINT payment_user_user_id FOREIGN KEY (user) REFERENCES user(id);
+ALTER TABLE planning_process ADD CONSTRAINT  planning_process_payment_payment_id FOREIGN KEY (payment) REFERENCES payment(id);
+ALTER TABLE planning_process ADD CONSTRAINT planning_process_plan_plan_id FOREIGN KEY (plan) REFERENCES plan(id);
